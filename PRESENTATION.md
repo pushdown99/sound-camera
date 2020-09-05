@@ -18,6 +18,8 @@ tags: [tizen, rpi, iot]
 6. [결과물](#page-11)
 7. [시연](#시연)
 
+[![Watch the video](https://img.youtube.com/vi/p-jtZBpTV6w/hqdefault.jpg)](https://www.youtube.com/watch?v=p-jtZBpTV6w)
+
 ---
 
 ###### Page 1
@@ -216,7 +218,7 @@ typedef struct appdata {
 9) 모니터링화면에 사진이 업로드되는지 확인
 10) 소리나는 주변을 스캔하고 사진찍기
 
-[시연동영상보기]()
+[![Watch the video](https://img.youtube.com/vi/p-jtZBpTV6w/hqdefault.jpg)](https://www.youtube.com/watch?v=p-jtZBpTV6w)
 
 #### 대시보드 (dashboard)
 
