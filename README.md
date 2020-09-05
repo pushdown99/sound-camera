@@ -191,9 +191,10 @@ GPIO|피에조부저|카메라셔터음|src/piezoe.c
 
 ## 별첨
 
+#### 자료다운로드
 Output|Download
 ---|---
-자료|[소음카메라(pptx)](noise-camera.pptx)
-자료|[소음카메라(pdf)](noise-camera.pdf)
-
+문서자료|[소음카메라(pptx)](noise-camera.pptx)
+문서자료|[소음카메라(pdf)](noise-camera.pdf)
+발표자료|[PRESENTATION.md](PRESENTATION.md)
 
