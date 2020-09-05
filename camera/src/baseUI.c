@@ -98,8 +98,8 @@ cbThumbnail (void *data)
  *
  * - activate OpenGL
  * - get Window basic Frame (give a rotate feature, portrait and landscape)
- * - draw Camera view area (show, not hidden)
- * - draw heatmap cell (show, not hidden. and
+ * - draw Camera view area
+ * - draw heatmap cell
  *
  */
 void initGUI (void *data)

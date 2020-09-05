@@ -72,7 +72,7 @@ extern "C" {
 #define I_WIDTH			40 		// icon button
 #define I_HEIGHT        40
 #define I_GAP			10
-#define KERNEL          30 		// needed odd value (like 1,3,5,...) 5 <- normal
+#define KERNEL          HEATMAP 		// needed odd value (like 1,3,5,...) 5 <- normal
 
 #define SHOT_PNG		"shot.png"
 #define SHOT2_PNG		"shot2.png"

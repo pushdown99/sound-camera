@@ -7,7 +7,6 @@
  *
  */
 
-
 /********************************************************************************************
  *
  *	MAX4466 sensor handling (SPI) thread
@@ -15,9 +14,20 @@
  */
 int noiseDetect(char* data, int peak, int frequency)
 {
-	if(peak >= 800 && frequency >= (NSAMPLE/4)) return 250;
-	if(peak >= 600 && frequency >= (NSAMPLE/8)) return 200;
-	if(peak >= 600 || frequency >= (NSAMPLE/8)) return 150;
+	if(peak >= 900) 	return 205;
+	if(peak >= 800) 	return 185;
+	if(peak >= 700) 	return 165;
+
+	if(frequency >= 15) return 205;
+	if(frequency >= 14) return 185;
+	if(frequency >= 13) return 165;
+	if(frequency >= 12) return 145;
+	if(frequency >= 11) return 125;
+	if(frequency >= 10) return 105;
+
+	//if(peak >= 800 && frequency >= (NSAMPLE/4)) return 250;
+	//if(peak >= 600 && frequency >= (NSAMPLE/8)) return 200;
+	//if(peak >= 600 || frequency >= (NSAMPLE/8)) return 150;
 	return 0;
 }
 
@@ -54,7 +64,7 @@ void cbMThread (void *data EINA_UNUSED, Ecore_Thread *th)
 		cdft(NSAMPLE, -1, mp->a);
 
 		/* fouriere transform matrix mapping to frequency graph for visualization. */
-		for(int i = 0; i < NSAMPLE; i++) mp->f[(int)mp->a[i]] += 1;
+		for(int i = 0; i < NSAMPLE; i++) mp->f[(int)(mp->a[i]*2)] += 1;
 		for(int i = 0; i < NSAMPLE; i++) if(mp->f[i] > 0) freq += 1;
 
 		/* Note frequency */
@@ -134,16 +144,16 @@ cbBThreadCancel (void *data, Ecore_Thread *th)
  *	-----------------------------
  */
 
-int getOpaque(int m[R_HEATMAP][R_HEATMAP], int row, int col, int kernel) {
+int getOpaque(int m[R_HEATMAP][C_HEATMAP], int row, int col, int kernel) {
 	int gap = (int)(kernel / 2);
 	int cnt = 0, sum = 0;
 	for (int i = row - gap; i <= row + gap; i++) {
 		for (int j = col - gap; j <= col + gap;j++) {
-			cnt++;
 			if(i < 0) continue;
 			if(j < 0) continue;
 			if(i >= R_HEATMAP) continue;
-			if(j >= R_HEATMAP) continue;
+			if(j >= C_HEATMAP) continue;
+			cnt++;
 			sum += m[i][j];
 		}
 	}
@@ -162,7 +172,7 @@ void cbCThread (void *data EINA_UNUSED, Ecore_Thread *th)
 		for (int i = 0; i < R_HEATMAP; i++) {
 			for (int j = 0; j < C_HEATMAP; j++) {
 				int x = i / HEATMAP, y = j / HEATMAP;
-				int k = (x * R_SENSOR) + y;
+				int k = (x * C_SENSOR) + y;
 				m[i][j] = ad->max4466[k].o;
 			}
 		}
