@@ -1,0 +1,22 @@
+<html>
+<head>
+</head>
+<body>
+    <table class="table table-inverse">
+        <thead>
+          <tr>
+            <th>사진</th>
+            <th>파일</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(var i=0; i < json.length; i++) { %>
+          <tr>
+            <td><img src="/data/<%= json[i].name %>" style="width:100px;"></td>
+            <td><a href="/data/<%= json[i].name %>"><%= json[i].name %></a></td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+</body>
+</html>
