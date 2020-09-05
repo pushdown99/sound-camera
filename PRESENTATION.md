@@ -223,7 +223,7 @@ typedef struct appdata {
 대시보드연동|화면|링크
 ---|---|---
 ![](images/thingspark-logo.jpg)|![](images/thingspark.jpg)|[https://thingspark.co.kr/channels/65697](https://thingspark.co.kr/channels/65697)
-![](images/gcp-logo.png)|![](images/thingspark.jpg)|[http://debian.tric.kr:9900/](http://debian.tric.kr:9900/)
+![](images/gcp-logo.png)|![](images/gcp.jpg)|[http://debian.tric.kr:9900/](http://debian.tric.kr:9900/)
 
 ---
 
