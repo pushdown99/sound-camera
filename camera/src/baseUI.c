@@ -55,7 +55,9 @@ cbDebugDown(void *data, struct _Eo_Opaque *obj1, struct _Eo_Opaque *obj2, void *
 static void
 cbExitDown(void *data, struct _Eo_Opaque *obj1, struct _Eo_Opaque *obj2, void *info)
 {
+	appdata_t *ad = (appdata_t *)data;
 	//ecore_evas_shutdown();
+	elm_win_lower(ad->win);
 }
 
 
