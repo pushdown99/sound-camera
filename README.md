@@ -65,7 +65,7 @@ tags: [tizen, rpi, iot]
 
 ## 파일리스트
   
-#### 소음감지카메라 [~[github]~](https://github.com/pushdown99/sound-camera/tree/master/camera)
+#### 소음감지카메라 [[github]](https://github.com/pushdown99/sound-camera/tree/master/camera)
 ~~~console
 ├─camera
 │  ├─inc
@@ -100,7 +100,7 @@ src/piezoe.c|피에조 부저 (카메라셔터음) 제어
 src/post.c|외부서버에 데이터전송을 위한 curl/POST 
 src/thread.c|쓰레드 처리 (마이크앰프별,코디네이터, GPIO, Thingspark 연동)
 
-#### 카메라 대시보드 [~[github]~](https://github.com/pushdown99/sound-camera/tree/master/dashboard)
+#### 카메라 대시보드 [[github]](https://github.com/pushdown99/sound-camera/tree/master/dashboard)
 
 ~~~console
 ├─dashboard
@@ -121,6 +121,8 @@ src/thread.c|쓰레드 처리 (마이크앰프별,코디네이터, GPIO, Thingsp
 ---|---
 views/chart.ejs|google chart 및 카메라 이미지처리 html/javascript 템플릿  
 
+---
+
 ## 코드 기여자 
 
 #### 소음감지카메라
@@ -137,7 +139,6 @@ inc/piezoe.h|황해연,김민전
 inc/post.h|황해연
 inc/soundcam.h|황해연
 inc/thread.h|황해연
----
 
 - 소스파일(*.c)
 
