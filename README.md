@@ -19,6 +19,7 @@ tags: [tizen, rpi, iot]
 [별첨](#별첨)
 
 [![Watch the video](https://img.youtube.com/vi/p-jtZBpTV6w/hqdefault.jpg)](https://www.youtube.com/watch?v=p-jtZBpTV6w)
+![](images/b0.jpg)
 
 ---
 
