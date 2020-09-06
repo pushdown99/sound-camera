@@ -34,6 +34,8 @@ tags: [tizen, rpi, iot]
 황인후|테스트
 
 ![](images/m1.jpg)
+![](images/mt1.jpg)
+![](images/mt2.jpg)
 
 ---
 
@@ -165,7 +167,7 @@ app.c|황해연
 
 - 소스파일(*.ejs)
   
-파일명|기여
+파일명|기여자
 ---|---
 views/chart.ejs|황해연  
 
