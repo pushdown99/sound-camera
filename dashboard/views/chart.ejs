@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <style>
+    body {
+    font-family: Roboto Slab,Helvetica,Arial,sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -ms-overflow-style: scrollbar;
+    -webkit-tap-highlight-color: transparent;
+    }
+    body {
+    --code-font-family: Menlo,Monaco,Consolas,monospace;
+    --font-weight: 400;
+    --font-weight-bold: 700;
+    --font-weight-heading: 400;
+    --text-muted: #888;
+    --gray-bg: rgba(0,0,0,0.025);
+    --gray-text: #666;
+    --menu-text: #bbb;
+    --body-color: #333;
+    --body-bg: #fff;
+    --border-color: #ebebeb;
+    }
+    img {
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+      -webkit-transform: scaleY(-1);
+      transform: scaleY(-1);
+    }
+</style>
+</head>
+<body>
+  <div class="container-fluid">
+  <h1>noise detection camera</h1>
+  <hr>
+  </br>
+  <div class="row">
+    <div id="picture" class="col-md-4 col-sm-12">
+        <h4>Captured Image</h4>
+        <img id="capture" src="" width="100%">
+        </br>
+        </br>
+        <h4>Sensor Data</h4>
+        <table class="table">
+        <thead>
+        <tr>
+        <th>Channel</th>
+        <th>0</th>
+        <th>1</th>
+        <th>2</th>
+        <th>3</th>
+        <th>4</th>
+        <th>5</th>
+        <th>6</th>
+        <th>7</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>Wave peak</td>
+        <td id="P0">-</td>
+        <td id="P1">-</td>
+        <td id="P2">-</td>
+        <td id="P3">-</td>
+        <td id="P4">-</td>
+        <td id="P5">-</td>
+        <td id="P6">-</td>
+        <td id="P7">-</td>
+        </tr>
+        <tr>
+        <td>#Frequency</td>
+        <td id="F0">-</td>
+        <td id="F1">-</td>
+        <td id="F2">-</td>
+        <td id="F3">-</td>
+        <td id="F4">-</td>
+        <td id="F5">-</td>
+        <td id="F6">-</td>
+        <td id="F7">-</td>
+        </tr>
+        </tbody>
+        </table>
+    </div>
+    <div id="charts"  class="col-md-8 col-sm-12">
+      <h4>Graph</h4>
+      <div class="row">
+      <div id="chart0" class="col-md-3 col-sm-12"></div>
+      <div id="chart1" class="col-md-3 col-sm-12"></div>
+      <div id="chart2" class="col-md-3 col-sm-12"></div>
+      <div id="chart3" class="col-md-3 col-sm-12"></div>
+      <div id="chart4" class="col-md-3 col-sm-12"></div>
+      <div id="chart5" class="col-md-3 col-sm-12"></div>
+      <div id="chart6" class="col-md-3 col-sm-12"></div>
+      <div id="chart7" class="col-md-3 col-sm-12"></div>
+
+      <div id="fft0"   class="col-md-3 col-sm-12"></div>
+      <div id="fft1"   class="col-md-3 col-sm-12"></div>
+      <div id="fft2"   class="col-md-3 col-sm-12"></div>
+      <div id="fft3"   class="col-md-3 col-sm-12"></div>
+      <div id="fft4"   class="col-md-3 col-sm-12"></div>
+      <div id="fft5"   class="col-md-3 col-sm-12"></div>
+      <div id="fft6"   class="col-md-3 col-sm-12"></div>
+      <div id="fft7"   class="col-md-3 col-sm-12"></div>
+      </div>
+    </div>
+  </div>
+  </div>
+<script>
+  google.charts.load('visualization', { packages: ['corechart'] });
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    $.getJSON('/json-dat?channel=0', function(json) {
+      var ch0 = new google.visualization.DataTable();
+      ch0.addColumn('number', 't');
+      ch0.addColumn('number', 'wave length');
+      var options = { title: 'ch0', curveType: 'function', legend: 'none', lineWidth: 5, vAxis: { viewWindowMode:'explicit', viewWindow: { max:1024, min:0 }}};
+      var chart = new google.visualization.LineChart(document.getElementById('chart0'));
+      ch0.addRows(json);
+      chart.draw(ch0, options);
+    });
+    $.getJSON('/json-fft?channel=0', function(json) {
+      var fft0 = new google.visualization.DataTable();
+      fft0.addColumn('number', 't');
+      fft0.addColumn('number', 'wave length');
+      var options = { title: 'fft0', curveType: 'function', legend: 'none', lineWidth: 5, vAxis: { viewWindowMode:'explicit', viewWindow: { min:0 }}, colors: ['#e2431e']};
+      var chart = new google.visualization.LineChart(document.getElementById('fft0'));
+      fft0.addRows(json);
+      chart.draw(fft0, options);
+    });
+
+    $.getJSON('/json-dat?channel=1', function(json) {
+      var ch1 = new google.visualization.DataTable();
+      ch1.addColumn('number', 't');
+      ch1.addColumn('number', 'wave length');
+      var options = { title: 'ch1', fontName: 'Roboto Slab,Helvetica,Arial,sans-serif', curveType: 'function', legend: 'none', lineWidth: 5, vAxis: { viewWindowMode:'explicit', viewWindow: { max:1024, min:0 }}};
+      var chart = new google.visualization.LineChart(document.getElementById('chart1'));
+      ch1.addRows(json);
+      chart.draw(ch1, options);
+    });
+    $.getJSON('/json-fft?channel=1', function(json) {
+      var fft1 = new google.visualization.DataTable();
+      fft1.addColumn('number', 't');
+      fft1.addColumn('number', 'wave length');
+      var options = { title: 'fft1', fontName: 'Roboto Slab,Helvetica,Arial,sans-serif', curveType: 'function', legend: 'none', lineWidth: 5, vAxis: { viewWindowMode:'explicit', viewWindow: { min:0 }}, colors: ['#e2431e']};
+      var chart = new google.visualization.LineChart(document.getElementById('fft1'));
+      fft1.addRows(json);
+      chart.draw(fft1, options);
+    });
+
+    $.getJSON('/json-dat?channel=2', function(json) {
+      var ch2 = new google.visualization.DataTable();
+      ch2.addColumn('number', 't');
+      ch2.addColumn('number', 'wave length');
+      var options = { title: 'ch2', fontName: 'Roboto Slab,Helvetica,Arial,sans-serif', curveType: 'function', legend: 'none', lineWidth: 5, vAxis: { viewWindowMode:'explicit', viewWindow: { max:1024, min:0 }}};
+      var chart = new google.visualization.LineChart(document.getElementById('chart2'));
+      ch2.addRows(json);
+      chart.draw(ch2, options);
+    });
+    $.getJSON('/json-fft?channel=2', function(json) {
+      var fft2 = new google.visualization.DataTable();
+      fft2.addColumn('number', 't');
+      fft2.addColumn('number', 'wave length');
+      var options = { title: 'fft2', fontName: 'Roboto Slab,Helvetica,Arial,sans-serif', curveType: 'function', legend: 'none', lineWidth: 5, vAxis: { viewWindowMode:'explicit', viewWindow: { min:0 }}, colors: ['#e2431e']};
+      var chart = new google.visualization.LineChart(document.getElementById('fft2'));
+      fft2.addRows(json);
+      chart.draw(fft2, options);
+    });
+
+    $.getJSON('/json-dat?channel=3', function(json) {
+      var ch3 = new google.visualization.DataTable();
+      ch3.addColumn('number', 't');
+      ch3.addColumn('number', 'wave length');
+      var options = { title: 'ch3', fontName: 'Roboto Slab,Helvetica,Arial,sans-serif', curveType: 'function', legend: 'none', lineWidth: 5, vAxis: { viewWindowMode:'explicit', viewWindow: { max:1024, min:0 }}};
+      var chart = new google.visualization.LineChart(document.getElementById('chart3'));
+      ch3.addRows(json);
+      chart.draw(ch3, options);
+    });
+    $.getJSON('/json-fft?channel=3', function(json) {
+      var fft3 = new google.visualization.DataTable();
+      fft3.addColumn('number', 't');
+      fft3.addColumn('number', 'wave length');
+      var options = { title: 'fft3', fontName: 'Roboto Slab,Helvetica,Arial,sans-serif', curveType: 'function', legend: 'none', lineWidth: 5, vAxis: { viewWindowMode:'explicit', viewWindow: { min:0 }}, colors: ['#e2431e']};
+      var chart = new google.visualization.LineChart(document.getElementById('fft3'));
+      fft3.addRows(json);
+      chart.draw(fft3, options);
+    });
+
+    $.getJSON('/json-dat?channel=4', function(json) {
+      var ch4 = new google.visualization.DataTable();
+      ch4.addColumn('number', 't');
+      ch4.addColumn('number', 'wave length');
+      var options = { title: 'ch4', fontName: 'Roboto Slab,Helvetica,Arial,sans-serif', curveType: 'function', legend: 'none', lineWidth: 5, vAxis: { viewWindowMode:'explicit', viewWindow: { max:1024, min:0 }}};
+      var chart = new google.visualization.LineChart(document.getElementById('chart4'));
+      ch4.addRows(json);
+      chart.draw(ch4, options);
+    });
+    $.getJSON('/json-fft?channel=4', function(json) {
+      var fft4 = new google.visualization.DataTable();
+      fft4.addColumn('number', 't');
+      fft4.addColumn('number', 'wave length');
+      var options = { title: 'fft4', fontName: 'Roboto Slab,Helvetica,Arial,sans-serif', curveType: 'function', legend: 'none', lineWidth: 5, vAxis: { viewWindowMode:'explicit', viewWindow: { min:0 }}, colors: ['#e2431e']};
+      var chart = new google.visualization.LineChart(document.getElementById('fft4'));
+      fft4.addRows(json);
+      chart.draw(fft4, options);
+    });
+    $.getJSON('/json-dat?channel=5', function(json) {
+      var ch5 = new google.visualization.DataTable();
+      ch5.addColumn('number', 't');
+      ch5.addColumn('number', 'wave length');
+      var options = { title: 'ch5', fontName: 'Roboto Slab,Helvetica,Arial,sans-serif', curveType: 'function', legend: 'none', lineWidth: 5, vAxis: { viewWindowMode:'explicit', viewWindow: { max:1024, min:0 }}};
+      var chart = new google.visualization.LineChart(document.getElementById('chart5'));
+      ch5.addRows(json);
+      chart.draw(ch5, options);
+    });
+    $.getJSON('/json-fft?channel=5', function(json) {
+      var fft5 = new google.visualization.DataTable();
+      fft5.addColumn('number', 't');
+      fft5.addColumn('number', 'wave length');
+      var options = { title: 'fft5', fontName: 'Roboto Slab,Helvetica,Arial,sans-serif', curveType: 'function', legend: 'none', lineWidth: 5, vAxis: { viewWindowMode:'explicit', viewWindow: { min:0 }}, colors: ['#e2431e']};
+      var chart = new google.visualization.LineChart(document.getElementById('fft5'));
+      fft5.addRows(json);
+      chart.draw(fft5, options);
+    });
+
+    $.getJSON('/json-dat?channel=6', function(json) {
+      var ch6 = new google.visualization.DataTable();
+      ch6.addColumn('number', 't');
+      ch6.addColumn('number', 'wave length');
+      var options = { title: 'ch6', fontName: 'Roboto Slab,Helvetica,Arial,sans-serif', curveType: 'function', legend: 'none', lineWidth: 5, vAxis: { viewWindowMode:'explicit', viewWindow: { max:1024, min:0 }}};
+      var chart = new google.visualization.LineChart(document.getElementById('chart6'));
+      ch6.addRows(json);
+      chart.draw(ch6, options);
+    });
+    $.getJSON('/json-fft?channel=6', function(json) {
+      var fft6 = new google.visualization.DataTable();
+      fft6.addColumn('number', 't');
+      fft6.addColumn('number', 'wave length');
+      var options = { title: 'fft6', fontName: 'Roboto Slab,Helvetica,Arial,sans-serif', curveType: 'function', legend: 'none', lineWidth: 5, vAxis: { viewWindowMode:'explicit', viewWindow: { min:0 }}, colors: ['#e2431e']};
+      var chart = new google.visualization.LineChart(document.getElementById('fft6'));
+      fft6.addRows(json);
+      chart.draw(fft6, options);
+    });
+
+    $.getJSON('/json-dat?channel=7', function(json) {
+      var ch7 = new google.visualization.DataTable();
+      ch7.addColumn('number', 't');
+      ch7.addColumn('number', 'wave length');
+      var options = { title: 'ch7', fontName: 'Roboto Slab,Helvetica,Arial,sans-serif', curveType: 'function', legend: 'none', lineWidth: 5, vAxis: { viewWindowMode:'explicit', viewWindow: { max:1024, min:0 }}};
+      var chart = new google.visualization.LineChart(document.getElementById('chart7'));
+      ch7.addRows(json);
+      chart.draw(ch7, options);
+    });
+    $.getJSON('/json-fft?channel=7', function(json) {
+      var fft7 = new google.visualization.DataTable();
+      fft7.addColumn('number', 't');
+      fft7.addColumn('number', 'wave length');
+      var options = { title: 'fft7', fontName: 'Roboto Slab,Helvetica,Arial,sans-serif', curveType: 'function', legend: 'none', lineWidth: 5, vAxis: { viewWindowMode:'explicit', viewWindow: { min:0 }}, colors: ['#e2431e']};
+      var chart = new google.visualization.LineChart(document.getElementById('fft7'));
+      fft7.addRows(json);
+      chart.draw(fft7, options);
+    });
+    $("#capture").attr("src", "/data/latest.jpg?timestamp=" + new Date().getTime());
+  }
+
+  function drawTable() {
+    $.getJSON('/json-dat-val', function(json) {
+        $.each(json,function(i, v){
+            $("#P"+i).text(v);
+        });
+    });
+    $.getJSON('/json-fft-val', function(json) {
+        $.each(json,function(i, v){
+            $("#F"+i).text(v);
+        });
+    });
+  }
+  setInterval(drawChart, 1000);
+  setInterval(drawTable, 1000);
+
+</script>
+</body>
+</html>
