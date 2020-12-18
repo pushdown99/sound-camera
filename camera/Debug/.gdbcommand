@@ -1,5 +1,5 @@
-set sysroot D:/tizen-studio/platforms/tizen-5.5/iot-headed/rootstraps/iot-headed-5.5-device.core
-set debug-file-directory D:/tizen-studio/platforms/tizen-5.5/iot-headed/rootstraps/iot-headed-5.5-device.core/usr/lib/debug
-set solib-search-path D:/ws/soundcamera/Debug
-dir D:/tizen-studio/platforms/tizen-5.5/iot-headed/rootstraps/iot-headed-5.5-device.core/usr/src/debug
+set sysroot D:/Repos/tizen-studio/platforms/tizen-5.5/iot-headed/rootstraps/iot-headed-5.5-device.core
+set debug-file-directory D:/Repos/tizen-studio/platforms/tizen-5.5/iot-headed/rootstraps/iot-headed-5.5-device.core/usr/lib/debug
+set solib-search-path D:/기타등등/ws/soundcamera/Debug
+dir D:/Repos/tizen-studio/platforms/tizen-5.5/iot-headed/rootstraps/iot-headed-5.5-device.core/usr/src/debug
 sharedlibrary

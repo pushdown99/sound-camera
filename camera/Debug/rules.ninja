@@ -14,7 +14,7 @@ rule build_long_c
   depfile = $out.d
   deps = gcc
   rspfile = $out.rsp
-  rspfile_content = $pchInc $cflags
+  rspfile_content = $pchInc $cflags $otherflags
 
 rule build_cpp
   command = $cpptool -MMD -MT $out -MF $out.d $pchInc $cppflags $otherflags -c $in -o $out
@@ -26,7 +26,7 @@ rule build_long_cpp
   description = Building $out
   depfile = $out.d
   rspfile = $out.rsp
-  rspfile_content = $pchInc $cppflags
+  rspfile_content = $pchInc $cppflags $otherflags
 
 #################################################################################
 # Unsupported Compilation Rules
@@ -48,10 +48,20 @@ rule build_long_unsupported
 rule build_target
   command = $targettool -o $out $in $userobj $libs $targetflags $otherflags
   description = Linking $out
+  
+rule build_target_static
+  command = $targettool -o $out $in $userobj $libs $targetflags
+  description = Archiving $out
 
 rule build_long_target
   command = $targettool -o $out @$out.rsp
   description = Linking $out
+  rspfile = $out.rsp
+  rspfile_content = $in $userobj $libs $targetflags $otherflags
+  
+rule build_long_target_static
+  command = $targettool -o $out @$out.rsp
+  description = Archiving $out
   rspfile = $out.rsp
   rspfile_content = $in $userobj $libs $targetflags
 
@@ -279,13 +289,21 @@ rule build_long_cpp_fast_sa
 #################################################################################
 
 rule build_cov
-  command = llvm-cov show $binaryName -instr-profile=coverage.profdata $in -outfile=$out
+  command = llvm-cov show $binaryName -filename-equivalence -instr-profile=coverage.profdata $in -outfile=$out
   description = Generating coverage file $out
 
 rule cov_report
-  command = llvm-cov report $binaryName -tizen-cov -instr-profile=coverage.profdata ../src/* -outfile=$coveragedir/report.txt
+  command = llvm-cov report $binaryName -tizen-cov -filename-equivalence -instr-profile=coverage.profdata ../ -outfile=$coveragedir/report.txt
   description = Generating coverage report $out
 
+rule build_cov_lib
+  command = llvm-cov show $covBinary -filename-equivalence -instr-profile=coverage.profdata $in -outfile=$out
+  description = Generating coverage file $out
+
+rule cov_report_lib
+  command = llvm-cov report $covBinary -tizen-cov -filename-equivalence -instr-profile=coverage.profdata ../ -outfile=$coveragedir/report.txt
+  description = Generating coverage report $out
+ 
 
 #################################################################################
 # Clean Rules
